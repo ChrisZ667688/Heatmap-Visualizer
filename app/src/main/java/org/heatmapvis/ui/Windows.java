@@ -60,7 +60,7 @@ public class Windows extends JFrame {
     }
 
     private void initBottomPanelsObjects() {
-        bottomPanel.setPreferredSize(new Dimension(this.getWidth(), 50));
+        bottomPanel.setPreferredSize(new Dimension(this.getWidth(), 200));
         bottomPanel.setBackground(Color.DARK_GRAY);
         bottomPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
     }

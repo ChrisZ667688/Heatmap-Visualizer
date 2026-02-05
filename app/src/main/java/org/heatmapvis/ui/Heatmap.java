@@ -1,14 +1,20 @@
 package org.heatmapvis.ui;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import edu.wpi.first.math.geometry.Translation3d;
 
 public class Heatmap extends ImagePanel {
     private Map<String, ArrayList<ArrayList<Translation3d>>> data = null;
+    private Map<String, ArrayList<Float>> hottestPoint = new HashMap<>();
+    private Map<String, ArrayList<BufferedImage>> images = new HashMap<>();
+
+    private static final int IMAGE_WIDTH = 1200;
+    private static final int IMAGE_HEIGHT = 630;
 
     public Heatmap() {
         super("map.png");
@@ -16,8 +22,44 @@ public class Heatmap extends ImagePanel {
     
     public void setData(Map<String, ArrayList<ArrayList<Translation3d>>> data) {
         this.data = data;
+        updateHottestPoint();
+        updateImages();
         Windows.mInstance.revalidate();
         Windows.mInstance.repaint();
+    }
+
+    private void updateHottestPoint() {
+        if (data == null) {
+            return;
+        }
+
+        for (String name : data.keySet()) {
+            for (ArrayList<Translation3d> entry : data.get(name)) {
+                float hottest = 0.0f;
+                for (Translation3d point : entry) {
+                    if (point.getZ() > hottest) {
+                        hottest = (float) point.getZ();
+                    }
+                }
+                hottestPoint.computeIfAbsent(name, k -> new ArrayList<>()).add(hottest);
+            }
+        }
+    }
+
+    private void updateImages() {
+        if (data == null) {
+            return;
+        }
+
+        data.forEach((k, v) -> {
+            for (ArrayList<Translation3d> entry : data.get(k)) {
+                float hottest = hottestPoint.get(k).get(data.get(k).indexOf(entry));
+                images.computeIfAbsent(k, key -> new ArrayList<>()).add(getImageFromData(entry, hottest));
+            }
+        });
+    }
+
+    public BufferedImage getImageFromData(ArrayList<Translation3d> data, float hottest) {
     }
 
     public Map<String, ArrayList<ArrayList<Translation3d>>> getData() {
