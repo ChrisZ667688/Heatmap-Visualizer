@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel {
     }
 
     private void loadImage(String resourcePath) {
-        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (is == null) {
                 System.err.println("Resource not found: " + resourcePath);
                 return;
