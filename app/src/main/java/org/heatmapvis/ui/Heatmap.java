@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.util.Color;
 
 public class Heatmap extends ImagePanel {
     private Map<String, ArrayList<ArrayList<Translation3d>>> data = null;
@@ -15,6 +16,9 @@ public class Heatmap extends ImagePanel {
 
     private static final int IMAGE_WIDTH = 1200;
     private static final int IMAGE_HEIGHT = 630;
+    private static final double FIELD_WIDTH =  26.3867;// in feet
+    private static final double FIELD_LENGTH = 54.1767; // in feet
+
 
     public Heatmap() {
         super("map.png");
@@ -23,7 +27,7 @@ public class Heatmap extends ImagePanel {
     public void setData(Map<String, ArrayList<ArrayList<Translation3d>>> data) {
         this.data = data;
         updateHottestPoint();
-        updateImages();
+        // updateImages();
         Windows.mInstance.revalidate();
         Windows.mInstance.repaint();
     }
@@ -46,21 +50,40 @@ public class Heatmap extends ImagePanel {
         }
     }
 
-    private void updateImages() {
-        if (data == null) {
-            return;
-        }
+    // private void updateImages() {
+    //     if (data == null) {
+    //         return;
+    //     }
 
-        data.forEach((k, v) -> {
-            for (ArrayList<Translation3d> entry : data.get(k)) {
-                float hottest = hottestPoint.get(k).get(data.get(k).indexOf(entry));
-                images.computeIfAbsent(k, key -> new ArrayList<>()).add(getImageFromData(entry, hottest));
-            }
-        });
-    }
+    //     data.forEach((k, v) -> {
+    //         for (ArrayList<Translation3d> entry : data.get(k)) {
+    //             float hottest = hottestPoint.get(k).get(data.get(k).indexOf(entry));
+    //             images.computeIfAbsent(k, key -> new ArrayList<>()).add(getImageFromData(entry, hottest));
+    //         }
+    //     });
+    // }
 
-    public BufferedImage getImageFromData(ArrayList<Translation3d> data, float hottest) {
-    }
+    // public BufferedImage getImageFromData(ArrayList<Translation3d> data, float hottest) {
+    //     if (data == null || data.isEmpty() || hottest <= 0){
+    //         return new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    //     }
+
+    //     for (Translation3d point : data) {
+
+    //         int x = (int) ((point.getX() / 8.0) * IMAGE_WIDTH);
+    //         int y = (int) ((point.getY() / 4.0) * IMAGE_HEIGHT);
+    //         int intensity = (int) ((point.getZ() / hottest) * 255);
+
+    //         if (x < 0 || x >= IMAGE_WIDTH || y < 0 || y >= IMAGE_HEIGHT) continue;
+
+    //         float ratio = (float) (point.getZ() / hottest);
+    //         ratio = Math.max(0, Math.min(1, ratio));  
+    //         int color = Color.hsvToRgb(0.7f * (1.0f - ratio), 1.0f, 1.0f);
+
+    //     images.setRGB(x, y, color);
+    //     }
+        
+    // }
 
     public Map<String, ArrayList<ArrayList<Translation3d>>> getData() {
         return data;
