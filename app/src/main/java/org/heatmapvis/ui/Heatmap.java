@@ -70,17 +70,16 @@ public class Heatmap extends ImagePanel {
 
     //     for (Translation3d point : data) {
 
-    //         int x = (int) ((point.getX() / 8.0) * IMAGE_WIDTH);
-    //         int y = (int) ((point.getY() / 4.0) * IMAGE_HEIGHT);
-    //         int intensity = (int) ((point.getZ() / hottest) * 255);
+    //         int x = (int) ((point.getX() / FIELD_LENGTH) * IMAGE_WIDTH);
+    //         int y = (int) ((point.getY() / FIELD_WIDTH) * IMAGE_HEIGHT);
+            
 
     //         if (x < 0 || x >= IMAGE_WIDTH || y < 0 || y >= IMAGE_HEIGHT) continue;
+            
+         
+    //         //
 
-    //         float ratio = (float) (point.getZ() / hottest);
-    //         ratio = Math.max(0, Math.min(1, ratio));  
-    //         int color = Color.hsvToRgb(0.7f * (1.0f - ratio), 1.0f, 1.0f);
-
-    //     images.setRGB(x, y, color);
+       
     //     }
         
     // }
